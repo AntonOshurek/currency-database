@@ -1,6 +1,6 @@
 {
   "name": "currency-database",
-  "version": "0.0.2",
+  "version": "1.0.0",
   "description": "Zero-dependency currency metadata and amount formatting for JavaScript and TypeScript.",
   "keywords": [
     "currency",
