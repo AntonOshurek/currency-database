@@ -1,7 +1,13 @@
 //DATA
 export { CURRENCIES } from './currencies.js';
 //MODEL
-export type { Currency, CurrencyCode } from './currencies.model.js';
+export type {
+  Currency,
+  CurrencyCode,
+  FormatAmountParams,
+  CurrencyMark,
+  FormatOptions,
+} from './currencies.model.js';
 //FORMATTERS
 export { formatAmount, formatAmountStrict } from './format.js';
 //GETTERS

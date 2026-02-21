@@ -17,7 +17,7 @@ export function getCurrencyStrict(code: string) {
 }
 
 export function getCurrencies() {
-  Object.values(CURRENCIES);
+  return Object.values(CURRENCIES);
 }
 
 export function getCurrencyCodes(): CurrencyCode[] {

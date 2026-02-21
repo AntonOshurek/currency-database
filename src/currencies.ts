@@ -129,7 +129,7 @@ export const CURRENCIES = {
   NIO: { country: 'Nicaragua', symbol: 'NIO', flag: '🇳🇮', sign: 'C$' },
   NOK: { country: 'Norway', symbol: 'NOK', flag: '🇳🇴', sign: 'kr' },
   NPR: {
-    country: 'Napri',
+    country: 'Nepal',
     symbol: 'NPR',
     flag: '🇳🇵',
     sign: '₨',

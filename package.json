@@ -1,15 +1,23 @@
 {
   "name": "currency-database",
   "version": "0.0.2",
-  "description": "Lightweight ISO 4217 currency metadata dataset for JavaScript and TypeScript.",
+  "description": "Zero-dependency currency metadata and amount formatting for JavaScript and TypeScript.",
   "keywords": [
     "currency",
     "currencies",
-    "iso4217",
-    "money",
-    "metadata",
-    "dataset",
-    "typescript"
+    "currency-codes",
+    "currency-metadata",
+    "currency-format",
+    "money-format",
+    "iso-4217",
+    "exchange",
+    "local-data",
+    "offline",
+    "zero-dependency",
+    "javascript",
+    "typescript",
+    "esm",
+    "cjs"
   ],
   "homepage": "https://github.com/AntonOshurek/currency-database#readme",
   "repository": {

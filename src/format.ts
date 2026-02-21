@@ -1,17 +1,12 @@
-//DATA
-import { CURRENCIES } from './currencies.js';
 //GUARD
 import { isCurrencyCode } from './guards.js';
 //MODEL
-import type { CurrencyCode, FormatOptions } from './currencies.model.js';
+import type { FormatAmountParams } from './currencies.model.js';
 //UTILS
 import { pickMark } from './utils.js';
 
-export function formatAmount(
-  amount: number,
-  code: CurrencyCode,
-  options: FormatOptions = {}
-) {
+export function formatAmount(params: FormatAmountParams) {
+  const { amount, code, options = {} } = params;
   const { mark = 'sign', position = 'right', separator = ' ' } = options;
 
   const value = pickMark(code, mark);
@@ -21,14 +16,10 @@ export function formatAmount(
     : `${amount}${separator}${value}`;
 }
 
-export function formatAmountStrict(
-  amount: number,
-  code: string,
-  options: FormatOptions = {}
-) {
-  if (!isCurrencyCode(code)) {
-    throw new Error(`Unknown currency code: ${code}`);
+export function formatAmountStrict(params: FormatAmountParams) {
+  if (!isCurrencyCode(params.code)) {
+    throw new Error(`Unknown currency code: ${params.code}`);
   }
 
-  return formatAmount(amount, code, options);
+  return formatAmount(params);
 }

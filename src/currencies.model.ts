@@ -9,3 +9,9 @@ export type FormatOptions = {
   position?: 'left' | 'right';
   separator?: string;
 };
+
+export type FormatAmountParams = {
+  amount: number;
+  code: CurrencyCode;
+  options?: FormatOptions;
+};
