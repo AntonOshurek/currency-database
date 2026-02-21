@@ -1,6 +1,6 @@
 {
   "name": "currency-database",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Lightweight ISO 4217 currency metadata dataset for JavaScript and TypeScript.",
   "keywords": [
     "currency",
@@ -53,6 +53,11 @@
   },
   "packageManager": "npm@10.0.0",
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^8.56.0",
+    "@typescript-eslint/parser": "^8.56.0",
+    "eslint": "^10.0.1",
+    "eslint-plugin-prettier": "^5.5.5",
+    "prettier": "^3.8.1",
     "tsup": "^8.5.1",
     "typescript": "^5.9.3"
   }
