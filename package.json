@@ -1,15 +1,23 @@
 {
   "name": "currency-database",
-  "version": "0.0.1",
-  "description": "Lightweight ISO 4217 currency metadata dataset for JavaScript and TypeScript.",
+  "version": "1.0.0",
+  "description": "Zero-dependency currency metadata and amount formatting for JavaScript and TypeScript.",
   "keywords": [
     "currency",
     "currencies",
-    "iso4217",
-    "money",
-    "metadata",
-    "dataset",
-    "typescript"
+    "currency-codes",
+    "currency-metadata",
+    "currency-format",
+    "money-format",
+    "iso-4217",
+    "exchange",
+    "local-data",
+    "offline",
+    "zero-dependency",
+    "javascript",
+    "typescript",
+    "esm",
+    "cjs"
   ],
   "homepage": "https://github.com/AntonOshurek/currency-database#readme",
   "repository": {
@@ -46,13 +54,18 @@
     "build": "tsup src/index.ts --format esm,cjs --dts",
     "dev": "tsup src/index.ts --format esm,cjs --dts --watch",
     "prepublishOnly": "npm run build",
-    "test": "node -e \"console.log('ok')\""
+    "test": "npm run build && node tests/getters.test.mjs && node tests/format.test.mjs"
   },
   "engines": {
     "node": ">=16"
   },
   "packageManager": "npm@10.0.0",
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^8.56.0",
+    "@typescript-eslint/parser": "^8.56.0",
+    "eslint": "^10.0.1",
+    "eslint-plugin-prettier": "^5.5.5",
+    "prettier": "^3.8.1",
     "tsup": "^8.5.1",
     "typescript": "^5.9.3"
   }
