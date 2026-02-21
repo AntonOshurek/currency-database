@@ -54,7 +54,7 @@
     "build": "tsup src/index.ts --format esm,cjs --dts",
     "dev": "tsup src/index.ts --format esm,cjs --dts --watch",
     "prepublishOnly": "npm run build",
-    "test": "node -e \"console.log('ok')\""
+    "test": "npm run build && node tests/getters.test.mjs && node tests/format.test.mjs"
   },
   "engines": {
     "node": ">=16"
