@@ -2,6 +2,72 @@
 
 This domain has app-ready currency data and currency helper functions.
 
+## Import Options (Bundle Size)
+
+Use the smallest import path for your case.
+All method examples below use domain/subpath imports (recommended).
+Root import is shown only in the optional example in this section.
+
+### 1) Full currency domain (recommended for most cases)
+
+Imports all currency data, formatters, getters, and currency guard.
+
+```ts
+import { getCurrency, formatAmount, getCurrenciesByM49Code } from 'currency-database/currency';
+```
+
+### 2) Currency core only (smaller import)
+
+Use this when you need currency data, basic getters, and formatters, but you do not need region-based currency getters.
+
+Exports in this path:
+- `CURRENCIES`
+- `getCurrency`
+- `getCurrencyStrict`
+- `getCurrencies`
+- `getCurrencyCodes`
+- `isCurrencyCode`
+- `formatAmount`
+- `formatAmountStrict`
+
+```ts
+import { CURRENCIES, formatAmount, getCurrencyCodes } from 'currency-database/currency/core';
+```
+
+### 3) Currency region getters only (small focused import)
+
+Use this when you only need currency filtering by regions.
+
+Exports in this path:
+- `BUSINESS_REGIONS`
+- `getCurrenciesByBusinessRegion`
+- `getCurrenciesByM49Code`
+
+Type-only imports also work:
+- `Currency`
+- `BusinessRegion`
+- `M49Code`
+
+```ts
+import {
+  BUSINESS_REGIONS,
+  getCurrenciesByBusinessRegion,
+  getCurrenciesByM49Code,
+} from 'currency-database/currency/regions';
+```
+
+```ts
+import type { BusinessRegion, M49Code } from 'currency-database/currency/regions';
+```
+
+### 4) Root import (full library)
+
+This works, but it is bigger than domain import paths.
+
+```ts
+import { getCurrency, formatAmount } from 'currency-database';
+```
+
 ## Exports In This Domain
 
 Data:
@@ -43,6 +109,10 @@ type FormatAmountParams = {
 };
 ```
 
+## Feature: Currency Core (`currency-database/currency/core`)
+
+Use this feature for currency data, basic getters, guard, and formatters.
+
 ## `CURRENCIES`
 
 Object with currencies by code.
@@ -72,7 +142,7 @@ Currency item shape:
 Example:
 
 ```ts
-import { CURRENCIES } from 'currency-database';
+import { CURRENCIES } from 'currency-database/currency/core';
 
 const usd = CURRENCIES.USD;
 // {
@@ -110,7 +180,7 @@ Returns:
 Example:
 
 ```ts
-import { getCurrency } from 'currency-database';
+import { getCurrency } from 'currency-database/currency/core';
 
 const eur = getCurrency('EUR');
 // {
@@ -151,7 +221,7 @@ Throws:
 Example:
 
 ```ts
-import { getCurrencyStrict } from 'currency-database';
+import { getCurrencyStrict } from 'currency-database/currency/core';
 
 const jpy = getCurrencyStrict('JPY');
 // { country: 'Japan', symbol: 'JPY', ... }
@@ -160,7 +230,7 @@ const jpy = getCurrencyStrict('JPY');
 Error handling example:
 
 ```ts
-import { getCurrencyStrict } from 'currency-database';
+import { getCurrencyStrict } from 'currency-database/currency/core';
 
 let currency = null;
 try {
@@ -187,7 +257,7 @@ Returns:
 Example:
 
 ```ts
-import { getCurrencies } from 'currency-database';
+import { getCurrencies } from 'currency-database/currency/core';
 
 const list = getCurrencies();
 // [{ country: 'United Arab Emirates', symbol: 'AED', ... }, ...]
@@ -210,11 +280,15 @@ Returns:
 Example:
 
 ```ts
-import { getCurrencyCodes } from 'currency-database';
+import { getCurrencyCodes } from 'currency-database/currency/core';
 
 const codes = getCurrencyCodes();
 // ['AED', 'AFN', 'ALL', ...]
 ```
+
+## Feature: Currency Region Filters (`currency-database/currency/regions`)
+
+Use this feature for currency filtering by business region or M49 code.
 
 ## `getCurrenciesByBusinessRegion(region)`
 
@@ -236,7 +310,7 @@ Returns:
 Example:
 
 ```ts
-import { getCurrenciesByBusinessRegion } from 'currency-database';
+import { getCurrenciesByBusinessRegion } from 'currency-database/currency/regions';
 
 const amer = getCurrenciesByBusinessRegion('amer');
 // [{ symbol: 'BMD', ... }, { symbol: 'CAD', ... }, ...]
@@ -266,12 +340,16 @@ Returns:
 Examples:
 
 ```ts
-import { getCurrenciesByM49Code } from 'currency-database';
+import { getCurrenciesByM49Code } from 'currency-database/currency/regions';
 
 const americas = getCurrenciesByM49Code('019');
 const northAmerica = getCurrenciesByM49Code('021');
 const caribbean = getCurrenciesByM49Code('029');
 ```
+
+## Feature: Currency Core (`currency-database/currency/core`)
+
+This feature also includes the currency guard and amount formatters.
 
 ## `isCurrencyCode(code)`
 
@@ -293,7 +371,7 @@ Returns:
 Examples:
 
 ```ts
-import { isCurrencyCode } from 'currency-database';
+import { isCurrencyCode } from 'currency-database/currency/core';
 
 isCurrencyCode('USD'); // true
 isCurrencyCode('usd'); // false
@@ -331,14 +409,14 @@ Behavior:
 Examples:
 
 ```ts
-import { formatAmount } from 'currency-database';
+import { formatAmount } from 'currency-database/currency/core';
 
 formatAmount({ amount: 29.99, code: 'AED' });
 // '29.99 د.إ'
 ```
 
 ```ts
-import { formatAmount } from 'currency-database';
+import { formatAmount } from 'currency-database/currency/core';
 
 formatAmount({
   amount: 29.99,
@@ -349,7 +427,7 @@ formatAmount({
 ```
 
 ```ts
-import { formatAmount } from 'currency-database';
+import { formatAmount } from 'currency-database/currency/core';
 
 formatAmount({
   amount: 29.99,
@@ -360,7 +438,7 @@ formatAmount({
 ```
 
 ```ts
-import { formatAmount } from 'currency-database';
+import { formatAmount } from 'currency-database/currency/core';
 
 formatAmount({
   amount: 29.99,
@@ -392,7 +470,7 @@ Throws:
 Example:
 
 ```ts
-import { formatAmountStrict } from 'currency-database';
+import { formatAmountStrict } from 'currency-database/currency/core';
 
 formatAmountStrict({ amount: 10, code: 'EUR' });
 // '10 €'
@@ -401,7 +479,7 @@ formatAmountStrict({ amount: 10, code: 'EUR' });
 Error handling example:
 
 ```ts
-import { formatAmountStrict } from 'currency-database';
+import { formatAmountStrict } from 'currency-database/currency/core';
 
 let formatted = '';
 try {
