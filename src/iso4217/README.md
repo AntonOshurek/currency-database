@@ -2,6 +2,31 @@
 
 This domain has ISO 4217 currency data.
 
+## Import Options (Bundle Size)
+
+All examples below use `currency-database/iso4217` (recommended).
+Root import is shown only in the optional example in this section.
+
+### 1) ISO 4217 domain import (recommended)
+
+Use this path when you only need ISO 4217 data and ISO getters.
+
+```ts
+import { getIso4217ByCode, getIso4217ByNumber } from 'currency-database/iso4217';
+```
+
+```ts
+import type { Iso4217Code, Iso4217Entry } from 'currency-database/iso4217';
+```
+
+### 2) Root import (full library)
+
+This works, but it is bigger than the ISO domain import path.
+
+```ts
+import { getIso4217ByCode } from 'currency-database';
+```
+
 Each item includes:
 - `code` (currency code)
 - `number` (numeric code)
@@ -37,6 +62,10 @@ type Iso4217Entry = {
 };
 ```
 
+## Feature: ISO 4217 Data And Getters (`currency-database/iso4217`)
+
+Use this feature for ISO data and ISO getter functions.
+
 ## `ISO_4217_CURRENCIES`
 
 Object with ISO 4217 records by code.
@@ -59,7 +88,7 @@ Item shape:
 Example:
 
 ```ts
-import { ISO_4217_CURRENCIES } from 'currency-database';
+import { ISO_4217_CURRENCIES } from 'currency-database/iso4217';
 
 const eur = ISO_4217_CURRENCIES.EUR;
 // {
@@ -94,21 +123,21 @@ Returns:
 Examples:
 
 ```ts
-import { getIso4217ByCode } from 'currency-database';
+import { getIso4217ByCode } from 'currency-database/iso4217';
 
 getIso4217ByCode('EUR');
 // { code: 'EUR', number: 978, digits: 2, currency: 'Euro', countries: [...] }
 ```
 
 ```ts
-import { getIso4217ByCode } from 'currency-database';
+import { getIso4217ByCode } from 'currency-database/iso4217';
 
 getIso4217ByCode('eur');
 // same result as 'EUR'
 ```
 
 ```ts
-import { getIso4217ByCode } from 'currency-database';
+import { getIso4217ByCode } from 'currency-database/iso4217';
 
 getIso4217ByCode('AAA');
 // undefined
@@ -139,21 +168,21 @@ Returns:
 Examples:
 
 ```ts
-import { getIso4217ByNumber } from 'currency-database';
+import { getIso4217ByNumber } from 'currency-database/iso4217';
 
 getIso4217ByNumber(967);
 // { code: 'ZMW', number: 967, digits: 2, currency: 'Zambian Kwacha', countries: ['zambia'] }
 ```
 
 ```ts
-import { getIso4217ByNumber } from 'currency-database';
+import { getIso4217ByNumber } from 'currency-database/iso4217';
 
 getIso4217ByNumber('048');
 // { code: 'BHD', number: 48, digits: 3, currency: 'Bahraini Dinar', countries: ['bahrain'] }
 ```
 
 ```ts
-import { getIso4217ByNumber } from 'currency-database';
+import { getIso4217ByNumber } from 'currency-database/iso4217';
 
 getIso4217ByNumber('abc');
 // undefined
@@ -184,14 +213,14 @@ Returns:
 Examples:
 
 ```ts
-import { getIso4217ByCountry } from 'currency-database';
+import { getIso4217ByCountry } from 'currency-database/iso4217';
 
 const colombia = getIso4217ByCountry('colombia');
 // [{ code: 'COP', number: 170, digits: 2, currency: 'Colombian Peso', countries: ['colombia'] }]
 ```
 
 ```ts
-import { getIso4217ByCountry } from 'currency-database';
+import { getIso4217ByCountry } from 'currency-database/iso4217';
 
 const uruguay = getIso4217ByCountry('uruguay');
 // [
@@ -201,7 +230,7 @@ const uruguay = getIso4217ByCountry('uruguay');
 ```
 
 ```ts
-import { getIso4217ByCountry } from 'currency-database';
+import { getIso4217ByCountry } from 'currency-database/iso4217';
 
 getIso4217ByCountry('unknown-country');
 // []
@@ -225,7 +254,7 @@ Returns:
 Example:
 
 ```ts
-import { getIso4217Numbers } from 'currency-database';
+import { getIso4217Numbers } from 'currency-database/iso4217';
 
 const numbers = getIso4217Numbers();
 // ['784', '971', '008', ...]

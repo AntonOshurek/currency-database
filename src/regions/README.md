@@ -2,6 +2,54 @@
 
 This domain has UN M49 region data and business region values.
 
+## Import Options (Bundle Size)
+
+Use the smallest import path for your case.
+All examples below use domain/subpath imports (recommended).
+Root import is shown only in the optional example in this section.
+
+### 1) Full regions domain (recommended for most cases)
+
+Imports M49 data, business regions, getters, and guards.
+
+```ts
+import { M49_REGIONS, getM49ByCode, isM49Code } from 'currency-database/regions';
+```
+
+### 2) Small subset for currency integration
+
+Use this when you only need `BUSINESS_REGIONS` and M49 guards (for currency-related code).
+
+Exports in this path:
+- `BUSINESS_REGIONS`
+- `isM49Code`
+- `isM49RegionCode`
+- `isM49SubregionCode`
+- `isM49IntermediateRegionCode`
+
+Type-only imports also work:
+- `BusinessRegion`
+- `M49Code`
+- `M49RegionCode`
+- `M49SubregionCode`
+- `M49IntermediateRegionCode`
+
+```ts
+import { BUSINESS_REGIONS, isM49Code } from 'currency-database/regions/currency';
+```
+
+```ts
+import type { M49Code } from 'currency-database/regions/currency';
+```
+
+### 3) Root import (full library)
+
+This works, but it is bigger than domain import paths.
+
+```ts
+import { getM49ByCode, getBusinessRegions } from 'currency-database';
+```
+
 ## Exports In This Domain
 
 Data:
@@ -49,6 +97,10 @@ type M49RegionRef = {
 };
 ```
 
+## Feature: Full Regions Data And Getters (`currency-database/regions`)
+
+Use this feature for M49 data objects and M49 getter functions.
+
 ## Data Objects
 
 ### `M49_REGIONS`
@@ -59,7 +111,7 @@ Top-level M49 regions object.
 - Values have shape `{ code, name }`
 
 ```ts
-import { M49_REGIONS } from 'currency-database';
+import { M49_REGIONS } from 'currency-database/regions';
 
 const asia = M49_REGIONS['142'];
 // { code: '142', name: 'Asia' }
@@ -73,7 +125,7 @@ M49 subregions object.
 - Values have shape `{ code, name, regionCode }`
 
 ```ts
-import { M49_SUBREGIONS } from 'currency-database';
+import { M49_SUBREGIONS } from 'currency-database/regions';
 
 const westernAsia = M49_SUBREGIONS['145'];
 // { code: '145', name: 'Western Asia', regionCode: '142' }
@@ -87,7 +139,7 @@ M49 intermediate regions object.
 - Values have shape `{ code, name, subregionCode, regionCode }`
 
 ```ts
-import { M49_INTERMEDIATE_REGIONS } from 'currency-database';
+import { M49_INTERMEDIATE_REGIONS } from 'currency-database/regions';
 
 const caribbean = M49_INTERMEDIATE_REGIONS['029'];
 // { code: '029', name: 'Caribbean', subregionCode: '419', regionCode: '019' }
@@ -96,9 +148,10 @@ const caribbean = M49_INTERMEDIATE_REGIONS['029'];
 ### `BUSINESS_REGIONS`
 
 Business regions constant array.
+Recommended small import for this constant: `currency-database/regions/currency`.
 
 ```ts
-import { BUSINESS_REGIONS } from 'currency-database';
+import { BUSINESS_REGIONS } from 'currency-database/regions/currency';
 
 const list = BUSINESS_REGIONS;
 // ['emea', 'apac', 'amer', 'latam']
@@ -120,7 +173,7 @@ Returns:
 Example:
 
 ```ts
-import { getBusinessRegions } from 'currency-database';
+import { getBusinessRegions } from 'currency-database/regions';
 
 const list = getBusinessRegions();
 // ['emea', 'apac', 'amer', 'latam']
@@ -146,21 +199,21 @@ Returns:
 Examples:
 
 ```ts
-import { getM49ByCode } from 'currency-database';
+import { getM49ByCode } from 'currency-database/regions';
 
 getM49ByCode('019');
 // { code: '019', name: 'Americas' }
 ```
 
 ```ts
-import { getM49ByCode } from 'currency-database';
+import { getM49ByCode } from 'currency-database/regions';
 
 getM49ByCode('021');
 // { code: '021', name: 'Northern America', regionCode: '019' }
 ```
 
 ```ts
-import { getM49ByCode } from 'currency-database';
+import { getM49ByCode } from 'currency-database/regions';
 
 getM49ByCode('029');
 // { code: '029', name: 'Caribbean', subregionCode: '419', regionCode: '019' }
@@ -188,7 +241,7 @@ Returns:
 Example:
 
 ```ts
-import { getM49List } from 'currency-database';
+import { getM49List } from 'currency-database/regions';
 
 const regions = getM49List('regions');
 // [{ code: '002', name: 'Africa' }, ...]
@@ -210,7 +263,7 @@ getM49RegionByCode(code: M49RegionCode): M49Region
 Example:
 
 ```ts
-import { getM49RegionByCode } from 'currency-database';
+import { getM49RegionByCode } from 'currency-database/regions';
 
 const americas = getM49RegionByCode('019');
 // { code: '019', name: 'Americas' }
@@ -229,7 +282,7 @@ getM49SubregionByCode(code: M49SubregionCode): M49Subregion
 Example:
 
 ```ts
-import { getM49SubregionByCode } from 'currency-database';
+import { getM49SubregionByCode } from 'currency-database/regions';
 
 const northAmerica = getM49SubregionByCode('021');
 // { code: '021', name: 'Northern America', regionCode: '019' }
@@ -248,11 +301,15 @@ getM49IntermediateRegionByCode(code: M49IntermediateRegionCode): M49Intermediate
 Example:
 
 ```ts
-import { getM49IntermediateRegionByCode } from 'currency-database';
+import { getM49IntermediateRegionByCode } from 'currency-database/regions';
 
 const caribbean = getM49IntermediateRegionByCode('029');
 // { code: '029', name: 'Caribbean', subregionCode: '419', regionCode: '019' }
 ```
+
+## Feature: Currency Helper Subset (`currency-database/regions/currency`)
+
+Use this feature when you only need `BUSINESS_REGIONS` and M49 guards.
 
 ## Guards
 
@@ -267,7 +324,7 @@ isM49Code(code: string): code is M49Code
 ```
 
 ```ts
-import { isM49Code } from 'currency-database';
+import { isM49Code } from 'currency-database/regions/currency';
 
 isM49Code('019'); // true
 isM49Code('999'); // false
@@ -282,7 +339,7 @@ isM49RegionCode(code: string): code is M49RegionCode
 ```
 
 ```ts
-import { isM49RegionCode } from 'currency-database';
+import { isM49RegionCode } from 'currency-database/regions/currency';
 
 isM49RegionCode('142'); // true
 isM49RegionCode('145'); // false
@@ -297,7 +354,7 @@ isM49SubregionCode(code: string): code is M49SubregionCode
 ```
 
 ```ts
-import { isM49SubregionCode } from 'currency-database';
+import { isM49SubregionCode } from 'currency-database/regions/currency';
 
 isM49SubregionCode('145'); // true
 isM49SubregionCode('142'); // false
@@ -312,7 +369,7 @@ isM49IntermediateRegionCode(code: string): code is M49IntermediateRegionCode
 ```
 
 ```ts
-import { isM49IntermediateRegionCode } from 'currency-database';
+import { isM49IntermediateRegionCode } from 'currency-database/regions/currency';
 
 isM49IntermediateRegionCode('029'); // true
 isM49IntermediateRegionCode('019'); // false
@@ -321,7 +378,7 @@ isM49IntermediateRegionCode('019'); // false
 ## Useful Type (for currency `region` field)
 
 ```ts
-import type { M49RegionRef } from 'currency-database';
+import type { M49RegionRef } from 'currency-database/regions';
 
 type RegionData = M49RegionRef;
 ```
