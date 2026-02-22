@@ -6,10 +6,10 @@ import {
   isM49IntermediateRegionCode,
   isM49RegionCode,
   isM49SubregionCode,
-} from './regions.guards.js';
+} from '../regions/regions.guards.js';
 //MODEL
 import type { Currency, CurrencyCode } from './currencies.model.js';
-import type { BusinessRegion, M49Code } from './regions.model.js';
+import type { BusinessRegion, M49Code } from '../regions/regions.model.js';
 
 export function getCurrency(code: CurrencyCode) {
   return CURRENCIES[code];

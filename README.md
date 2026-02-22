@@ -18,7 +18,7 @@ npm install currency-database
 
 ## Data
 
-- 151 currency records
+- 143 currency records
 - Key is currency code (`USD`, `EUR`, `JPY`, ...)
 
 Each currency item has this shape:

@@ -118,6 +118,32 @@ test('every currency contains region object with required keys', () => {
   }
 });
 
+test('every currency contains ISO 4217 numeric code and minor units', () => {
+  for (const currency of Object.values(CURRENCIES)) {
+    assert.equal(typeof currency.num, 'string');
+    assert.match(currency.num, /^\d{3}$/);
+
+    assert.equal(typeof currency.d, 'number');
+    assert.equal(Number.isInteger(currency.d), true);
+    assert.equal(currency.d >= 0, true);
+    assert.equal(currency.d <= 9, true);
+  }
+});
+
+test('currency ISO 4217 num/d contract samples are exact', () => {
+  assert.equal(CURRENCIES.USD.num, '840');
+  assert.equal(CURRENCIES.USD.d, 2);
+
+  assert.equal(CURRENCIES.EUR.num, '978');
+  assert.equal(CURRENCIES.EUR.d, 2);
+
+  assert.equal(CURRENCIES.JPY.num, '392');
+  assert.equal(CURRENCIES.JPY.d, 0);
+
+  assert.equal(CURRENCIES.BHD.num, '048');
+  assert.equal(CURRENCIES.BHD.d, 3);
+});
+
 test('currency region links are valid against M49 datasets', () => {
   const businessRegions = new Set(BUSINESS_REGIONS);
 
