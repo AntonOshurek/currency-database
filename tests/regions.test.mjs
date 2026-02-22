@@ -1,6 +1,8 @@
 import assert from 'node:assert/strict';
 
 import {
+  BUSINESS_REGIONS,
+  getBusinessRegions,
   getM49ByCode,
   getM49IntermediateRegionByCode,
   getM49List,
@@ -28,6 +30,7 @@ test('M49 region dataset has expected top-level sizes', () => {
   assert.equal(Object.keys(M49_REGIONS).length, 5);
   assert.equal(Object.keys(M49_SUBREGIONS).length, 17);
   assert.equal(Object.keys(M49_INTERMEDIATE_REGIONS).length, 7);
+  assert.deepEqual(BUSINESS_REGIONS, ['emea', 'apac', 'amer', 'latam']);
 });
 
 test('M49 has expected region and subregion samples', () => {
@@ -70,6 +73,19 @@ test('getM49List returns array by requested dataset type', () => {
     intermediate.length,
     Object.keys(M49_INTERMEDIATE_REGIONS).length
   );
+});
+
+test('getBusinessRegions returns business region list', () => {
+  const list = getBusinessRegions();
+
+  assert.deepEqual(list, ['emea', 'apac', 'amer', 'latam']);
+});
+
+test('getBusinessRegions returns new array instance', () => {
+  const first = getBusinessRegions();
+  const second = getBusinessRegions();
+
+  assert.notEqual(first, second);
 });
 
 test('Every subregion points to existing region', () => {

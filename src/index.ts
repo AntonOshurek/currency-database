@@ -4,6 +4,7 @@ export {
   M49_REGIONS,
   M49_SUBREGIONS,
   M49_INTERMEDIATE_REGIONS,
+  BUSINESS_REGIONS,
 } from './regions.js';
 //MODEL
 export type {
@@ -22,6 +23,7 @@ export type {
   M49IntermediateRegion,
   M49DatasetType,
   M49Item,
+  BusinessRegion,
   M49RegionRef,
 } from './regions.model.js';
 //FORMATTERS
@@ -34,6 +36,7 @@ export {
   getCurrencyCodes,
 } from './getters.js';
 export {
+  getBusinessRegions,
   getM49ByCode,
   getM49List,
   getM49RegionByCode,

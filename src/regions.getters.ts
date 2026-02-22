@@ -1,11 +1,13 @@
 //DATA
 import {
+  BUSINESS_REGIONS,
   M49_INTERMEDIATE_REGIONS,
   M49_REGIONS,
   M49_SUBREGIONS,
 } from './regions.js';
 //MODEL
 import type {
+  BusinessRegion,
   M49DatasetType,
   M49IntermediateRegion,
   M49IntermediateRegionCode,
@@ -15,6 +17,10 @@ import type {
   M49Subregion,
   M49SubregionCode,
 } from './regions.model.js';
+
+export function getBusinessRegions(): BusinessRegion[] {
+  return [...BUSINESS_REGIONS];
+}
 
 export function getM49RegionByCode(code: M49RegionCode): M49Region {
   return M49_REGIONS[code];

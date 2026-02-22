@@ -1,4 +1,5 @@
 import {
+  BUSINESS_REGIONS,
   M49_INTERMEDIATE_REGIONS,
   M49_REGIONS,
   M49_SUBREGIONS,
@@ -16,9 +17,11 @@ export type M49IntermediateRegion =
 
 export type M49DatasetType = 'regions' | 'subregions' | 'intermediateRegions';
 export type M49Item = M49Region | M49Subregion | M49IntermediateRegion;
+export type BusinessRegion = (typeof BUSINESS_REGIONS)[number];
 
 export type M49RegionRef = {
   regionCode: M49RegionCode;
   subregionCode: M49SubregionCode;
   intermediateRegionCode?: M49IntermediateRegionCode | null;
+  businessRegion: BusinessRegion;
 };

@@ -78,3 +78,5 @@ export const M49_INTERMEDIATE_REGIONS = {
     regionCode: '019',
   },
 } as const;
+
+export const BUSINESS_REGIONS = ['emea', 'apac', 'amer', 'latam'] as const;
