@@ -21,39 +21,84 @@ function test(name, fn) {
   }
 }
 
-test('getCurrency returns item by code', () => {
-  const usd = getCurrency('USD');
-  assert.deepEqual(usd, CURRENCIES.USD);
+function assertArrayOfSameRefs(actual, expected) {
+  assert.equal(actual.length, expected.length);
+  for (let i = 0; i < actual.length; i += 1) {
+    assert.strictEqual(actual[i], expected[i]);
+  }
+}
+
+const EXPECTED_CODES = Object.keys(CURRENCIES);
+const EXPECTED_ITEMS = Object.values(CURRENCIES);
+const SAMPLE_CODES = ['USD', 'EUR', 'JPY', 'AED'];
+
+test('getCurrency returns exact object reference by code', () => {
+  for (const code of SAMPLE_CODES) {
+    assert.strictEqual(getCurrency(code), CURRENCIES[code]);
+  }
 });
 
-test('getCurrencyStrict returns item for valid string code', () => {
-  const eur = getCurrencyStrict('EUR');
-  assert.deepEqual(eur, CURRENCIES.EUR);
+test('getCurrencyStrict returns exact object reference for valid string code', () => {
+  for (const code of SAMPLE_CODES) {
+    assert.strictEqual(getCurrencyStrict(code), CURRENCIES[code]);
+  }
 });
 
 test('getCurrencyStrict throws for unknown code', () => {
-  assert.throws(() => getCurrencyStrict('AAA'), {
-    message: 'Unknown currency code: AAA',
-  });
+  assert.throws(
+    () => getCurrencyStrict('AAA'),
+    error =>
+      error instanceof Error && error.message === 'Unknown currency code: AAA'
+  );
 });
 
-test('getCurrencies returns full currency list', () => {
-  const list = getCurrencies();
-  const count = Object.keys(CURRENCIES).length;
-
-  assert.ok(Array.isArray(list));
-  assert.equal(list.length, count);
-  assert.ok(list.some(currency => currency.symbol === 'USD'));
-});
-
-test('getCurrencyCodes returns all currency codes', () => {
+test('all codes from getCurrencyCodes resolve in both getters', () => {
   const codes = getCurrencyCodes();
-  const count = Object.keys(CURRENCIES).length;
 
-  assert.ok(Array.isArray(codes));
-  assert.equal(codes.length, count);
-  assert.ok(codes.includes('USD'));
-  assert.ok(codes.every(code => code in CURRENCIES));
+  for (const code of codes) {
+    assert.strictEqual(getCurrency(code), CURRENCIES[code]);
+    assert.strictEqual(getCurrencyStrict(code), CURRENCIES[code]);
+  }
+});
+
+test('getCurrencyCodes returns exact ordered code list', () => {
+  const actual = getCurrencyCodes();
+  assert.deepEqual(actual, EXPECTED_CODES);
+});
+
+test('getCurrencyCodes returns new array instance on each call', () => {
+  const first = getCurrencyCodes();
+  const second = getCurrencyCodes();
+
+  assert.notStrictEqual(first, second);
+});
+
+test('getCurrencyCodes local mutation does not affect future calls', () => {
+  const first = getCurrencyCodes();
+  first.push('USD');
+
+  const second = getCurrencyCodes();
+  assert.deepEqual(second, EXPECTED_CODES);
+});
+
+test('getCurrencies returns exact ordered list of currency objects', () => {
+  const actual = getCurrencies();
+  assertArrayOfSameRefs(actual, EXPECTED_ITEMS);
+});
+
+test('getCurrencies returns new array instance on each call', () => {
+  const first = getCurrencies();
+  const second = getCurrencies();
+
+  assert.notStrictEqual(first, second);
+});
+
+test('getCurrencies local mutation does not affect future calls', () => {
+  const first = getCurrencies();
+  first.push(CURRENCIES.USD);
+
+  const second = getCurrencies();
+  assertArrayOfSameRefs(second, EXPECTED_ITEMS);
 });
 
 if (failed > 0) {

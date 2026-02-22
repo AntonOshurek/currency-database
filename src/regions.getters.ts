@@ -5,16 +5,22 @@ import {
   M49_REGIONS,
   M49_SUBREGIONS,
 } from './regions.js';
+//GUARDS
+import {
+  isM49IntermediateRegionCode,
+  isM49RegionCode,
+  isM49SubregionCode,
+} from './regions.guards.js';
 //MODEL
 import type {
   BusinessRegion,
   M49DatasetType,
   M49IntermediateRegion,
-  M49IntermediateRegionCode,
   M49Item,
   M49Region,
-  M49RegionCode,
   M49Subregion,
+  M49IntermediateRegionCode,
+  M49RegionCode,
   M49SubregionCode,
 } from './regions.model.js';
 
@@ -37,16 +43,16 @@ export function getM49IntermediateRegionByCode(
 }
 
 export function getM49ByCode(code: string): M49Item | undefined {
-  if (code in M49_REGIONS) {
-    return M49_REGIONS[code as M49RegionCode];
+  if (isM49RegionCode(code)) {
+    return M49_REGIONS[code];
   }
 
-  if (code in M49_SUBREGIONS) {
-    return M49_SUBREGIONS[code as M49SubregionCode];
+  if (isM49SubregionCode(code)) {
+    return M49_SUBREGIONS[code];
   }
 
-  if (code in M49_INTERMEDIATE_REGIONS) {
-    return M49_INTERMEDIATE_REGIONS[code as M49IntermediateRegionCode];
+  if (isM49IntermediateRegionCode(code)) {
+    return M49_INTERMEDIATE_REGIONS[code];
   }
 
   return undefined;

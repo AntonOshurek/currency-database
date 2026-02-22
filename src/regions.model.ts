@@ -16,6 +16,10 @@ export type M49IntermediateRegion =
   (typeof M49_INTERMEDIATE_REGIONS)[M49IntermediateRegionCode];
 
 export type M49DatasetType = 'regions' | 'subregions' | 'intermediateRegions';
+export type M49Code =
+  | M49RegionCode
+  | M49SubregionCode
+  | M49IntermediateRegionCode;
 export type M49Item = M49Region | M49Subregion | M49IntermediateRegion;
 export type BusinessRegion = (typeof BUSINESS_REGIONS)[number];
 

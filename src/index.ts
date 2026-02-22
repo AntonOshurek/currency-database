@@ -22,6 +22,7 @@ export type {
   M49IntermediateRegionCode,
   M49IntermediateRegion,
   M49DatasetType,
+  M49Code,
   M49Item,
   BusinessRegion,
   M49RegionRef,
@@ -45,3 +46,9 @@ export {
 } from './regions.getters.js';
 //GUARDS
 export { isCurrencyCode } from './guards.js';
+export {
+  isM49Code,
+  isM49RegionCode,
+  isM49SubregionCode,
+  isM49IntermediateRegionCode,
+} from './regions.guards.js';
