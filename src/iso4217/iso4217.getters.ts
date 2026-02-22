@@ -1,14 +1,18 @@
+//DATA
 import { ISO_4217_CURRENCIES } from './iso4217.js';
+//INDEXES
 import {
   ISO_4217_NUMBERS,
   getIso4217ByCountryIndex,
   getIso4217ByNumberIndex,
 } from './iso4217.indexes.js';
+//NORMALIZE
 import {
   normalizeIso4217Code,
   normalizeIso4217Country,
   parseIso4217Number,
 } from './iso4217.normalize.js';
+//MODEL
 import type { Iso4217Code, Iso4217Entry } from './iso4217.model.js';
 
 export function getIso4217ByCode(code: string): Iso4217Entry | undefined {

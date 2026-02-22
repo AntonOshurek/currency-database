@@ -1,5 +1,8 @@
+//DATA
 import { ISO_4217_CURRENCIES } from './iso4217.js';
+//NORMALIZE
 import { normalizeIso4217Country } from './iso4217.normalize.js';
+//MODEL
 import type { Iso4217Entry } from './iso4217.model.js';
 
 const ISO_4217_LIST = Object.values(ISO_4217_CURRENCIES) as Iso4217Entry[];

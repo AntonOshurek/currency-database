@@ -1,3 +1,4 @@
+//DATA
 import { ISO_4217_CURRENCIES } from './iso4217.js';
 
 export type Iso4217Code = keyof typeof ISO_4217_CURRENCIES;

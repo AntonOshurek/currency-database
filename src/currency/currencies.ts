@@ -1,4 +1,6 @@
+//DATA
 import { ISO_4217_CURRENCIES } from '../iso4217/iso4217.js';
+//REGIONS
 import {
   BUSINESS_REGIONS,
   M49_INTERMEDIATE_REGIONS,

@@ -1,6 +1,8 @@
+//NODE
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 
+//API
 import {
   CURRENCIES,
   ISO_4217_CURRENCIES,

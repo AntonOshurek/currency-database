@@ -1,3 +1,4 @@
+//DATA
 import { CURRENCIES } from './currencies.js';
 
 export type CurrencyCode = keyof typeof CURRENCIES;

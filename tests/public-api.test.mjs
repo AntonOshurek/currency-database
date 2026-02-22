@@ -1,5 +1,7 @@
+//NODE
 import assert from 'node:assert/strict';
 
+//API
 import * as api from '../dist/index.js';
 
 let failed = 0;
