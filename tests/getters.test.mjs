@@ -6,6 +6,8 @@ import {
   M49_INTERMEDIATE_REGIONS,
   M49_REGIONS,
   M49_SUBREGIONS,
+  getCurrenciesByBusinessRegion,
+  getCurrenciesByM49Code,
   getCurrencies,
   getCurrency,
   getCurrencyCodes,
@@ -177,6 +179,88 @@ test('currency region contract samples are exact', () => {
     intermediateRegionCode: null,
     businessRegion: 'apac',
   });
+});
+
+test('getCurrenciesByBusinessRegion returns exact filtered list for each business region', () => {
+  for (const businessRegion of BUSINESS_REGIONS) {
+    const expected = EXPECTED_ITEMS.filter(
+      currency => currency.region.businessRegion === businessRegion
+    );
+    const actual = getCurrenciesByBusinessRegion(businessRegion);
+
+    assertArrayOfSameRefs(actual, expected);
+  }
+});
+
+test('getCurrenciesByBusinessRegion returns new array instance on each call', () => {
+  const first = getCurrenciesByBusinessRegion('emea');
+  const second = getCurrenciesByBusinessRegion('emea');
+
+  assert.notStrictEqual(first, second);
+});
+
+test('getCurrenciesByBusinessRegion local mutation does not affect future calls', () => {
+  const first = getCurrenciesByBusinessRegion('amer');
+  first.push(CURRENCIES.USD);
+
+  const second = getCurrenciesByBusinessRegion('amer');
+  const expected = EXPECTED_ITEMS.filter(
+    currency => currency.region.businessRegion === 'amer'
+  );
+
+  assertArrayOfSameRefs(second, expected);
+});
+
+test('getCurrenciesByM49Code returns exact filtered list for all M49 region codes', () => {
+  for (const code of Object.keys(M49_REGIONS)) {
+    const expected = EXPECTED_ITEMS.filter(
+      currency => currency.region.regionCode === code
+    );
+    const actual = getCurrenciesByM49Code(code);
+
+    assertArrayOfSameRefs(actual, expected);
+  }
+});
+
+test('getCurrenciesByM49Code returns exact filtered list for all M49 subregion codes', () => {
+  for (const code of Object.keys(M49_SUBREGIONS)) {
+    const expected = EXPECTED_ITEMS.filter(
+      currency => currency.region.subregionCode === code
+    );
+    const actual = getCurrenciesByM49Code(code);
+
+    assertArrayOfSameRefs(actual, expected);
+  }
+});
+
+test('getCurrenciesByM49Code returns exact filtered list for all M49 intermediate region codes', () => {
+  for (const code of Object.keys(M49_INTERMEDIATE_REGIONS)) {
+    const expected = EXPECTED_ITEMS.filter(
+      currency => currency.region.intermediateRegionCode === code
+    );
+    const actual = getCurrenciesByM49Code(code);
+
+    assertArrayOfSameRefs(actual, expected);
+  }
+});
+
+test('getCurrenciesByM49Code returns new array instance on each call', () => {
+  const first = getCurrenciesByM49Code('019');
+  const second = getCurrenciesByM49Code('019');
+
+  assert.notStrictEqual(first, second);
+});
+
+test('getCurrenciesByM49Code local mutation does not affect future calls', () => {
+  const first = getCurrenciesByM49Code('021');
+  first.push(CURRENCIES.USD);
+
+  const second = getCurrenciesByM49Code('021');
+  const expected = EXPECTED_ITEMS.filter(
+    currency => currency.region.subregionCode === '021'
+  );
+
+  assertArrayOfSameRefs(second, expected);
 });
 
 if (failed > 0) {
