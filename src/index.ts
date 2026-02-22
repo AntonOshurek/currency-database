@@ -29,12 +29,6 @@ export type {
 } from './regions.model.js';
 //FORMATTERS
 export { formatAmount, formatAmountStrict } from './format.js';
-//NORMALIZERS
-export {
-  normalizeCurrency,
-  normalizeCurrencyStrict,
-  normalizeCurrencyLite,
-} from './normalize.js';
 //GETTERS
 export {
   getCurrencyStrict,
