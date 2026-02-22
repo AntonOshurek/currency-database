@@ -21,11 +21,8 @@ export type {
   M49IntermediateRegionCode,
   M49IntermediateRegion,
   M49DatasetType,
-  M49Code,
   M49Item,
-  M49ItemByDatasetType,
   M49RegionRef,
-  CurrencyRegionData,
 } from './regions.model.js';
 //FORMATTERS
 export { formatAmount, formatAmountStrict } from './format.js';

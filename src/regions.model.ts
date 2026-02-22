@@ -15,23 +15,10 @@ export type M49IntermediateRegion =
   (typeof M49_INTERMEDIATE_REGIONS)[M49IntermediateRegionCode];
 
 export type M49DatasetType = 'regions' | 'subregions' | 'intermediateRegions';
-export type M49Code =
-  | M49RegionCode
-  | M49SubregionCode
-  | M49IntermediateRegionCode;
 export type M49Item = M49Region | M49Subregion | M49IntermediateRegion;
-
-export type M49ItemByDatasetType<T extends M49DatasetType> = T extends 'regions'
-  ? M49Region
-  : T extends 'subregions'
-    ? M49Subregion
-    : M49IntermediateRegion;
 
 export type M49RegionRef = {
   regionCode: M49RegionCode;
   subregionCode: M49SubregionCode;
   intermediateRegionCode?: M49IntermediateRegionCode | null;
 };
-
-// Ready-to-use type for linking region data to each currency in future updates.
-export type CurrencyRegionData = M49RegionRef;
