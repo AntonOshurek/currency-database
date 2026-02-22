@@ -14,6 +14,7 @@ import {
   getCurrency,
   getCurrencyCodes,
   getCurrencyStrict,
+  isCurrencyCode,
 } from '../dist/index.js';
 
 let failed = 0;
@@ -58,6 +59,20 @@ test('getCurrencyStrict throws for unknown code', () => {
     error =>
       error instanceof Error && error.message === 'Unknown currency code: AAA'
   );
+});
+
+test('isCurrencyCode returns true for every known code', () => {
+  for (const code of EXPECTED_CODES) {
+    assert.equal(isCurrencyCode(code), true);
+  }
+});
+
+test('isCurrencyCode returns false for unknown, lowercase, and removed legacy codes', () => {
+  const invalidCodes = ['', 'usd', 'AAA', '019', 'BGN', 'HRK', 'VEF', 'ZWL'];
+
+  for (const code of invalidCodes) {
+    assert.equal(isCurrencyCode(code), false, code);
+  }
 });
 
 test('all codes from getCurrencyCodes resolve in both getters', () => {
