@@ -24,8 +24,8 @@ export type M49Item = M49Region | M49Subregion | M49IntermediateRegion;
 export type BusinessRegion = (typeof BUSINESS_REGIONS)[number];
 
 export type M49RegionRef = {
-  regionCode: M49RegionCode;
-  subregionCode: M49SubregionCode;
+  regionCode: M49RegionCode | null;
+  subregionCode: M49SubregionCode | null;
   intermediateRegionCode?: M49IntermediateRegionCode | null;
   businessRegion: BusinessRegion;
 };

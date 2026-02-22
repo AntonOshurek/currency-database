@@ -1,7 +1,11 @@
 import assert from 'node:assert/strict';
 
 import {
+  BUSINESS_REGIONS,
   CURRENCIES,
+  M49_INTERMEDIATE_REGIONS,
+  M49_REGIONS,
+  M49_SUBREGIONS,
   getCurrencies,
   getCurrency,
   getCurrencyCodes,
@@ -99,6 +103,80 @@ test('getCurrencies local mutation does not affect future calls', () => {
 
   const second = getCurrencies();
   assertArrayOfSameRefs(second, EXPECTED_ITEMS);
+});
+
+test('every currency contains region object with required keys', () => {
+  for (const currency of Object.values(CURRENCIES)) {
+    assert.equal(typeof currency.region, 'object');
+    assert.ok(currency.region !== null);
+    assert.ok('regionCode' in currency.region);
+    assert.ok('subregionCode' in currency.region);
+    assert.ok('intermediateRegionCode' in currency.region);
+    assert.ok('businessRegion' in currency.region);
+  }
+});
+
+test('currency region links are valid against M49 datasets', () => {
+  const businessRegions = new Set(BUSINESS_REGIONS);
+
+  for (const currency of Object.values(CURRENCIES)) {
+    const { region } = currency;
+
+    if (region.regionCode !== null) {
+      assert.ok(region.regionCode in M49_REGIONS);
+    }
+
+    if (region.subregionCode !== null) {
+      assert.ok(region.subregionCode in M49_SUBREGIONS);
+    }
+
+    if (region.intermediateRegionCode !== null) {
+      assert.ok(region.intermediateRegionCode in M49_INTERMEDIATE_REGIONS);
+    }
+
+    if (region.subregionCode !== null) {
+      const subregion = M49_SUBREGIONS[region.subregionCode];
+      if (region.regionCode !== null) {
+        assert.equal(subregion.regionCode, region.regionCode);
+      }
+    }
+
+    if (region.intermediateRegionCode !== null) {
+      const intermediate =
+        M49_INTERMEDIATE_REGIONS[region.intermediateRegionCode];
+      if (region.subregionCode !== null) {
+        assert.equal(intermediate.subregionCode, region.subregionCode);
+      }
+      if (region.regionCode !== null) {
+        assert.equal(intermediate.regionCode, region.regionCode);
+      }
+    }
+
+    assert.equal(businessRegions.has(region.businessRegion), true);
+  }
+});
+
+test('currency region contract samples are exact', () => {
+  assert.deepEqual(CURRENCIES.USD.region, {
+    regionCode: '019',
+    subregionCode: '021',
+    intermediateRegionCode: null,
+    businessRegion: 'amer',
+  });
+
+  assert.deepEqual(CURRENCIES.EUR.region, {
+    regionCode: '150',
+    subregionCode: null,
+    intermediateRegionCode: null,
+    businessRegion: 'emea',
+  });
+
+  assert.deepEqual(CURRENCIES.TWD.region, {
+    regionCode: '142',
+    subregionCode: '030',
+    intermediateRegionCode: null,
+    businessRegion: 'apac',
+  });
 });
 
 if (failed > 0) {
