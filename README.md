@@ -31,7 +31,7 @@ npm install currency-database
 ## Domain: Currencies
 
 Full docs (all methods, types, params, behavior):
-- [`src/currency/README.md`](./src/currency/README.md)
+- [`src/currency/README.md`](https://github.com/AntonOshurek/currency-database/blob/main/src/currency/README.md)
 
 ### Methods (quick examples)
 
@@ -131,7 +131,7 @@ formatAmountStrict({ amount: 10, code: 'EUR' });
 ## Domain: Regions
 
 Full docs (all methods, types, params, behavior):
-- [`src/regions/README.md`](./src/regions/README.md)
+- [`src/regions/README.md`](https://github.com/AntonOshurek/currency-database/blob/main/src/regions/README.md)
 
 ### Methods (quick examples)
 
@@ -237,7 +237,7 @@ isM49IntermediateRegionCode('019'); // false
 ## Domain: ISO 4217
 
 Full docs (all methods, types, params, behavior):
-- [`src/iso4217/README.md`](./src/iso4217/README.md)
+- [`src/iso4217/README.md`](https://github.com/AntonOshurek/currency-database/blob/main/src/iso4217/README.md)
 
 ### Methods (quick examples)
 
