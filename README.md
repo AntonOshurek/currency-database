@@ -1,14 +1,19 @@
 # currency-database
 
-Small currency metadata library for JavaScript and TypeScript.
+Small currency library for JavaScript and TypeScript.
+
+It has 3 domains:
+- `currencies`
+- `regions`
+- `iso4217`
 
 ## Why use this library
 
-- No runtime dependencies.
-- All currency data is local inside the library.
-- It works offline.
-- Small and simple API.
-- TypeScript types are included.
+- No runtime dependencies
+- All data is local inside the library
+- Works offline
+- Simple API
+- TypeScript types included
 
 ## Install
 
@@ -16,93 +21,48 @@ Small currency metadata library for JavaScript and TypeScript.
 npm install currency-database
 ```
 
-## Data
+## Data Summary
 
-- 151 currency records
-- Key is currency code (`USD`, `EUR`, `JPY`, ...)
+- `CURRENCIES`: 143 currency records
+- `ISO_4217_CURRENCIES`: 157 ISO 4217 records (with country lists)
+- M49 data: 5 regions, 17 subregions, 7 intermediate regions
+- `BUSINESS_REGIONS`: `emea`, `apac`, `amer`, `latam`
 
-Each currency item has this shape:
+## Domain: Currencies
 
-```ts
-{
-  country: string;
-  symbol: string; // 3-letter code, for example "USD"
-  flag: string; // emoji flag
-  sign?: string; // local sign, for example "$", "€", "¥"
-}
-```
+Full docs (all methods, types, params, behavior):
+- [`src/currency/README.md`](./src/currency/README.md)
 
-Real example (`USD`):
+### Methods (quick examples)
 
-```ts
-{
-  country: 'United States',
-  symbol: 'USD',
-  flag: '🇺🇸',
-  sign: '$',
-}
-```
-
-## API
-
-### `CURRENCIES`
-
-Object with all currencies by code.
-
-```ts
-import { CURRENCIES } from 'currency-database';
-
-const usd = CURRENCIES.USD;
-// { country: 'United States', symbol: 'USD', flag: '🇺🇸', sign: '$' }
-```
-
-### `getCurrency(code)`
-
-Gets one currency by typed code.
-
-- Input type: `CurrencyCode`
-- Return type: `Currency`
+#### `getCurrency(code)`
 
 ```ts
 import { getCurrency } from 'currency-database';
 
-const eur = getCurrency('EUR');
-// { country: 'European Union', symbol: 'EUR', flag: '🇪🇺', sign: '€' }
+const usd = getCurrency('USD');
+// { country: 'United States', symbol: 'USD', flag: '🇺🇸', sign: '$', num: '840', d: 2, region: {...} }
 ```
 
-### `getCurrencyStrict(code)`
-
-Gets one currency by `string`.
-
-- Input type: `string`
-- Return type: `Currency`
-- Throws error when code is not found
+#### `getCurrencyStrict(code)`
 
 ```ts
 import { getCurrencyStrict } from 'currency-database';
 
-const jpy = getCurrencyStrict('JPY');
-// { country: 'Japan', symbol: 'JPY', flag: '🇯🇵', sign: '¥' }
+const eur = getCurrencyStrict('EUR');
+// { country: 'European Union', symbol: 'EUR', ... }
 ```
 
-Error handling:
+#### `getCurrencies()`
 
 ```ts
-import { getCurrencyStrict } from 'currency-database';
+import { getCurrencies } from 'currency-database';
 
-let currency = null;
-try {
-  currency = getCurrencyStrict('AAA');
-} catch (e) {
-  currency = null; // or any fallback value
-}
+const list = getCurrencies();
+// [{ symbol: 'AED', ... }, { symbol: 'AFN', ... }, ...]
 ```
 
-### `getCurrencyCodes()`
-
-Returns all currency codes.
-
-- Return type: `CurrencyCode[]`
+#### `getCurrencyCodes()`
 
 ```ts
 import { getCurrencyCodes } from 'currency-database';
@@ -111,70 +71,35 @@ const codes = getCurrencyCodes();
 // ['AED', 'AFN', 'ALL', ...]
 ```
 
-### `getCurrencies()`
-
-Returns all currency objects.
-
-- Return type: `Currency[]`
+#### `getCurrenciesByBusinessRegion(region)`
 
 ```ts
-import { getCurrencies } from 'currency-database';
+import { getCurrenciesByBusinessRegion } from 'currency-database';
 
-const list = getCurrencies();
-// [{ country: 'United States', symbol: 'USD', ... }, ...]
+const emea = getCurrenciesByBusinessRegion('emea');
+// [{ symbol: 'AED', ... }, { symbol: 'ALL', ... }, ...]
 ```
 
-### `isCurrencyCode(code)`
+#### `getCurrenciesByM49Code(code)`
 
-Checks if string is a valid code.
+```ts
+import { getCurrenciesByM49Code } from 'currency-database';
 
-- Input type: `string`
-- Return type: `boolean` (type guard)
+const northAmerica = getCurrenciesByM49Code('021');
+// [{ symbol: 'BMD', ... }, { symbol: 'CAD', ... }, { symbol: 'USD', ... }]
+```
+
+#### `isCurrencyCode(code)`
 
 ```ts
 import { isCurrencyCode } from 'currency-database';
 
 isCurrencyCode('USD'); // true
+isCurrencyCode('usd'); // false
 isCurrencyCode('AAA'); // false
 ```
 
-### `formatAmount(params)`
-
-Formats amount with currency mark.
-
-Signature:
-
-```ts
-formatAmount(params: FormatAmountParams): string;
-```
-
-Types:
-
-```ts
-type CurrencyMark = 'sign' | 'symbol';
-
-type FormatOptions = {
-  mark?: CurrencyMark; // default: 'sign'
-  position?: 'left' | 'right'; // default: 'right'
-  separator?: string; // default: ' '
-};
-
-type FormatAmountParams = {
-  amount: number;
-  code: CurrencyCode;
-  options?: FormatOptions;
-};
-```
-
-Possible values:
-
-- `mark: 'sign'` - use local sign if it exists (`$`, `€`, `د.إ`)
-- `mark: 'symbol'` - use 3-letter code (`USD`, `EUR`, `AED`)
-- `position: 'right'` - result like `29.99 AED`
-- `position: 'left'` - result like `AED 29.99`
-- `separator: string` - any string between amount and mark (`' '`, `''`, `' | '`)
-
-Examples:
+#### `formatAmount(params)`
 
 ```ts
 import { formatAmount } from 'currency-database';
@@ -188,30 +113,13 @@ import { formatAmount } from 'currency-database';
 
 formatAmount({
   amount: 29.99,
-  code: 'AED',
-  options: { mark: 'symbol' },
-});
-// '29.99 AED'
-```
-
-```ts
-import { formatAmount } from 'currency-database';
-
-formatAmount({
-  amount: 29.99,
   code: 'USD',
   options: { position: 'left', mark: 'sign', separator: '' },
 });
 // '$29.99'
 ```
 
-### `formatAmountStrict(params)`
-
-Same as `formatAmount`, but checks code first.
-
-- Input type: `FormatAmountParams`
-- Return type: `string`
-- Throws error when code is not found
+#### `formatAmountStrict(params)`
 
 ```ts
 import { formatAmountStrict } from 'currency-database';
@@ -220,39 +128,159 @@ formatAmountStrict({ amount: 10, code: 'EUR' });
 // '10 €'
 ```
 
-Error handling:
+## Domain: Regions
+
+Full docs (all methods, types, params, behavior):
+- [`src/regions/README.md`](./src/regions/README.md)
+
+### Methods (quick examples)
+
+#### `getBusinessRegions()`
 
 ```ts
-import { formatAmountStrict } from 'currency-database';
+import { getBusinessRegions } from 'currency-database';
 
-let formatted = '';
-try {
-  formatted = formatAmountStrict({ amount: 29.99, code: 'AED' });
-} catch (e) {
-  formatted = '—'; // or any fallback value
-}
+const list = getBusinessRegions();
+// ['emea', 'apac', 'amer', 'latam']
 ```
 
-## Exported types
+#### `getM49ByCode(code)`
 
 ```ts
-import { CURRENCIES } from 'currency-database';
+import { getM49ByCode } from 'currency-database';
 
-type CurrencyCode = keyof typeof CURRENCIES;
-type Currency = (typeof CURRENCIES)[CurrencyCode];
-type CurrencyMark = 'sign' | 'symbol';
+getM49ByCode('019');
+// { code: '019', name: 'Americas' }
 
-type FormatOptions = {
-  mark?: CurrencyMark;
-  position?: 'left' | 'right';
-  separator?: string;
-};
+getM49ByCode('021');
+// { code: '021', name: 'Northern America', regionCode: '019' }
 
-type FormatAmountParams = {
-  amount: number;
-  code: CurrencyCode;
-  options?: FormatOptions;
-};
+getM49ByCode('029');
+// { code: '029', name: 'Caribbean', subregionCode: '419', regionCode: '019' }
+```
+
+#### `getM49List(type)`
+
+```ts
+import { getM49List } from 'currency-database';
+
+getM49List('regions');
+// [{ code: '002', name: 'Africa' }, ...]
+
+getM49List('subregions');
+// [{ code: '015', name: 'Northern Africa', regionCode: '002' }, ...]
+```
+
+#### `getM49RegionByCode(code)`
+
+```ts
+import { getM49RegionByCode } from 'currency-database';
+
+getM49RegionByCode('142');
+// { code: '142', name: 'Asia' }
+```
+
+#### `getM49SubregionByCode(code)`
+
+```ts
+import { getM49SubregionByCode } from 'currency-database';
+
+getM49SubregionByCode('145');
+// { code: '145', name: 'Western Asia', regionCode: '142' }
+```
+
+#### `getM49IntermediateRegionByCode(code)`
+
+```ts
+import { getM49IntermediateRegionByCode } from 'currency-database';
+
+getM49IntermediateRegionByCode('029');
+// { code: '029', name: 'Caribbean', subregionCode: '419', regionCode: '019' }
+```
+
+#### `isM49Code(code)`
+
+```ts
+import { isM49Code } from 'currency-database';
+
+isM49Code('019'); // true
+isM49Code('999'); // false
+```
+
+#### `isM49RegionCode(code)`
+
+```ts
+import { isM49RegionCode } from 'currency-database';
+
+isM49RegionCode('142'); // true
+isM49RegionCode('145'); // false
+```
+
+#### `isM49SubregionCode(code)`
+
+```ts
+import { isM49SubregionCode } from 'currency-database';
+
+isM49SubregionCode('145'); // true
+isM49SubregionCode('142'); // false
+```
+
+#### `isM49IntermediateRegionCode(code)`
+
+```ts
+import { isM49IntermediateRegionCode } from 'currency-database';
+
+isM49IntermediateRegionCode('029'); // true
+isM49IntermediateRegionCode('019'); // false
+```
+
+## Domain: ISO 4217
+
+Full docs (all methods, types, params, behavior):
+- [`src/iso4217/README.md`](./src/iso4217/README.md)
+
+### Methods (quick examples)
+
+#### `getIso4217ByCode(code)`
+
+```ts
+import { getIso4217ByCode } from 'currency-database';
+
+getIso4217ByCode('EUR');
+// { code: 'EUR', number: 978, digits: 2, currency: 'Euro', countries: ['åland islands', 'andorra', ...] }
+```
+
+#### `getIso4217ByNumber(number)`
+
+```ts
+import { getIso4217ByNumber } from 'currency-database';
+
+getIso4217ByNumber(967);
+// { code: 'ZMW', number: 967, digits: 2, currency: 'Zambian Kwacha', countries: ['zambia'] }
+
+getIso4217ByNumber('048');
+// { code: 'BHD', number: 48, digits: 3, currency: 'Bahraini Dinar', countries: ['bahrain'] }
+```
+
+#### `getIso4217ByCountry(country)`
+
+```ts
+import { getIso4217ByCountry } from 'currency-database';
+
+getIso4217ByCountry('colombia');
+// [{ code: 'COP', number: 170, digits: 2, currency: 'Colombian Peso', countries: ['colombia'] }]
+
+getIso4217ByCountry('uruguay');
+// [{ code: 'UYU', ... }, { code: 'UYW', ... }]
+```
+
+#### `getIso4217Numbers()`
+
+```ts
+import { getIso4217Numbers } from 'currency-database';
+
+const numbers = getIso4217Numbers();
+// ['784', '971', '008', ...]
 ```
 
 ## License
